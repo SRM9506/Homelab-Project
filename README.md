@@ -16,3 +16,13 @@ This repository serves as my primary learning environment to bridge the gap betw
 
 ## Project Philosophy
 I am treating this lab as a production environment. I document my progress, troubleshoot systematically, and focus on security-first architecture to prepare for a career in IT Systems and Cloud Engineering.
+
+## Hardware Infrastructure
+This lab is hosted on a portable workstation, optimized for virtualization and containerization:
+
+* **Host:** MSI GF75 Thin (10UEK-048)
+* **CPU:** Intel Core i7-10750H
+* **RAM:** 64GB DDR4
+* **Storage:** * Samsung 980 500GB NVMe SSD (Primary/Boot)
+    * 1TB HDD (Data)
+* **Hypervisor:** Proxmox VE (Virtual Environment)
