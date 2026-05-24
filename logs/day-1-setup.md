@@ -1,4 +1,5 @@
-# Log Entry: Day 1 - Initial Infrastructure Setup
+# Day 1 — Initial Infrastructure Setup
+Date: May 23, 2026
 
 ## Objective
 Establish the Proxmox VE hypervisor on the MSI workstation to serve 
