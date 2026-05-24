@@ -55,3 +55,18 @@ documented to demonstrate real hands-on experience.
 ---
 
 ## 📁 Repository Structure
+homelab-project/
+├── README.md
+└── logs/
+    └── day-1-setup.md
+
+## 📋 Project Philosophy
+I treat this lab as a production environment. I document my progress, 
+troubleshoot systematically, and maintain a security-first architecture 
+to prepare for a career in cybersecurity and cloud engineering.
+
+---
+
+## 📊 Skills Being Developed
+`Proxmox` `Linux` `Docker` `Networking` `pfSense` `Active Directory` 
+`Penetration Testing` `SIEM` `Cloud Infrastructure` `DevOps`
