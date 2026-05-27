@@ -45,14 +45,15 @@ documented to demonstrate real hands-on experience.
 - Verified working on cellular from outside home network
 
 ### Self-Hosted Services
-- Jellyfin media server — `http://jellyfin.lan` / `https://jellyfin.mondol.dev`
-- Nextcloud personal cloud storage — `http://nextcloud.lan` / `https://nextcloud.mondol.dev`
-- Nginx Proxy Manager — `http://npm.lan`
-- Portainer Docker management — `http://portainer.lan` / `https://portainer.mondol.dev`
-- Uptime Kuma service monitoring — `http://uptime.lan`
-- Homepage dashboard — `http://home.lan` / `https://home.mondol.dev`
-- Pi-hole ad blocker — `http://192.168.1.156:8053/admin`
-- Minecraft Bedrock server — `192.168.1.156:19132`
+- Jellyfin media server
+- Nextcloud personal cloud storage
+- Nginx Proxy Manager
+- Portainer Docker management
+- Uptime Kuma service monitoring
+- Homepage dashboard
+- Pi-hole ad blocker
+- Minecraft Bedrock + Java server (Geyser bridge)
+- Romm retro ROM manager and browser emulator
 - Watchtower — automated daily container updates
 - Cloudflared — Cloudflare Tunnel connector
 
@@ -111,21 +112,21 @@ homelab-project/
 ---
 
 ## 🌐 Active Services
-
 | Service | URL | Purpose |
 |---|---|---|
 | Homepage | http://home.lan | Dashboard |
-| Proxmox | https://192.168.1.200:8006 | Hypervisor |
+| Proxmox | https://proxmox.lan | Hypervisor |
 | pfSense | https://pfsense.lan | Firewall |
 | Jellyfin | http://jellyfin.lan | Media Server |
 | Nextcloud | http://nextcloud.lan | Cloud Storage |
 | Portainer | http://portainer.lan | Docker Management |
 | Uptime Kuma | http://uptime.lan | Monitoring |
 | Nginx Proxy Manager | http://npm.lan | Reverse Proxy |
-| Pi-hole | http://192.168.1.156:8053/admin | Ad Blocker |
-| Kali Linux | 192.168.1.150:3389 (RDP) | Security Lab |
-| Minecraft Bedrock | 192.168.1.156:19132 | Game Server |
-
+| Pi-hole | http://pihole.lan | Ad Blocker |
+| Kali Linux | kali.lan (RDP) | Security Lab |
+| Minecraft Bedrock | Local network only (UDP) | Game Server |
+| Minecraft Java | Local network only (TCP) | Game Server (Geyser) |
+| Romm | http://romm.lan | ROM Manager |
 ---
 
 ## 📋 Project Philosophy
