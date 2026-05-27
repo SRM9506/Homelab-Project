@@ -34,19 +34,27 @@ documented to demonstrate real hands-on experience.
 - pfSense WAN/LAN interfaces configured
 - Local DNS resolver with host overrides for all services
 - Nginx Proxy Manager routing all services by domain name
-- All services accessible via clean .lan domains — no IP memorization required
+- All services accessible via clean .lan domains
 - Router DNS set to pfSense for network-wide resolution
+- Static IPs configured on all VMs permanently
+
+### Remote Access
+- Cloudflare Tunnel deployed via Docker on Ubuntu Server
+- All services publicly accessible via mondol.dev subdomains with HTTPS
+- No port forwarding required — outbound tunnel bypasses ISP restrictions
+- Verified working on cellular from outside home network
 
 ### Self-Hosted Services
-- Jellyfin media server — `http://jellyfin.lan`
-- Nextcloud personal cloud storage — `http://nextcloud.lan`
+- Jellyfin media server — `http://jellyfin.lan` / `https://jellyfin.mondol.dev`
+- Nextcloud personal cloud storage — `http://nextcloud.lan` / `https://nextcloud.mondol.dev`
 - Nginx Proxy Manager — `http://npm.lan`
-- Portainer Docker management — `http://portainer.lan`
+- Portainer Docker management — `http://portainer.lan` / `https://portainer.mondol.dev`
 - Uptime Kuma service monitoring — `http://uptime.lan`
-- Homepage dashboard — `http://home.lan`
+- Homepage dashboard — `http://home.lan` / `https://home.mondol.dev`
 - Pi-hole ad blocker — `http://192.168.1.156:8053/admin`
 - Minecraft Bedrock server — `192.168.1.156:19132`
 - Watchtower — automated daily container updates
+- Cloudflared — Cloudflare Tunnel connector
 
 ### Storage
 - 300GB virtual disk mounted at /mnt/media on 1TB HDD
@@ -60,6 +68,12 @@ documented to demonstrate real hands-on experience.
 - Static IP assigned at 192.168.1.150
 - SSH access enabled
 
+### Professional Presence
+- Portfolio website live at https://mondol.dev
+- Deployed via Cloudflare Pages with auto-deploy from GitHub
+- LinkedIn updated with IT/cybersecurity career direction
+- GitHub homelab repo with daily documentation logs
+
 ---
 
 ## 🗺️ Roadmap
@@ -67,11 +81,12 @@ documented to demonstrate real hands-on experience.
 ### Networking & Security
 - [x] pfSense — firewall rules and DNS configuration
 - [x] Kali Linux VM — offensive security practice
+- [x] Remote access via Cloudflare Tunnel
 - [ ] pfSense VLANs — network segmentation
+- [ ] WireGuard VPN (blocked by Verizon Fios — using Cloudflare Tunnel instead)
 - [ ] Metasploitable — vulnerable target for penetration testing
 - [ ] DVWA — vulnerable web application practice
 - [ ] Wazuh SIEM — centralized monitoring and threat detection
-- [ ] WireGuard VPN — secure remote access
 
 ### Enterprise Identity
 - [ ] Windows Server 2022 — Active Directory implementation
@@ -79,10 +94,10 @@ documented to demonstrate real hands-on experience.
 - [ ] AD attack and defense practice
 
 ### Cloud & DevOps
-- [x] Docker and Docker Compose for service management
+- [x] Docker for service management
+- [ ] Docker Compose migration
 - [ ] CI/CD pipeline for automated deployments
 - [ ] Terraform infrastructure as code practice
-
 ---
 
 ## 📁 Repository Structure
