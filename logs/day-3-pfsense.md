@@ -10,13 +10,12 @@ Kali Linux as a dedicated security lab with remote desktop access.
 
 ### pfSense Firewall
 - Deployed pfSense CE 2.7.2 VM (2 cores, 1GB RAM, 20GB disk on SSD)
-- Configured WAN interface (em0) at x.x.x.x
-- Added LAN interface (em1) at x.x.x.x with DHCP range x.x.x.x-200
+- Configured WAN and LAN interfaces
 - Added permanent WAN firewall rule to allow HTTPS GUI access
 - Configured DNS Resolver with host overrides for all services
-- Added Access List allowing x.x.x.x/24 to query DNS
+- Added Access List to allow local network to query DNS
 - Disabled HTTP_REFERER enforcement for proxy access
-- Set router DNS to x.x.x.x so all devices use pfSense DNS
+- Set router DNS to pfSense so all devices use it automatically
 
 ### Local DNS & Nginx Proxy Manager
 - Configured host overrides for all services using .lan domain
@@ -28,13 +27,13 @@ Kali Linux as a dedicated security lab with remote desktop access.
 
 ### Pi-hole
 - Deployed Pi-hole Docker container on Ubuntu Server
-- Accessible at http://x.x.x.x:8053/admin
+- Accessible at http://pihole.lan
 - DNS integration with pfSense partially working
 - UDP port 53 issue to be resolved on Day 4
 
 ### Kali Linux VM
 - Created Kali Linux 2026.1 VM (4 cores, 4GB RAM, 80GB on SSD)
-- Assigned static IP x.x.x.x
+- Assigned static IP on local network
 - Installed and configured xrdp for remote desktop access
 - Fixed xrdp window manager config in /etc/xrdp/startwm.sh
 - Full XFCE desktop accessible via RDP from MacBook and Nobara PC
@@ -53,21 +52,20 @@ Kali Linux as a dedicated security lab with remote desktop access.
 
 ### Minecraft Bedrock Server
 - Deployed itzg/minecraft-bedrock-server Docker container
-- Running on port 19132 UDP
 - Accessible from iPhone, Xbox, and PC Bedrock Edition
 - Server name: Shark's Homelab Server
-- World data stored at /home/<admin-user>/minecraft
+- World data stored on Ubuntu Server
 
 ### System Maintenance
 - Configured MSI laptop lid to stay on when closed
   (HandleLidSwitch=ignore in /etc/systemd/logind.conf)
 - Installed htop on Proxmox and Ubuntu Server
-- Configured BIOS boot order confirmed (Proxmox as primary)
+- Confirmed BIOS boot order (Proxmox as primary)
 
 ## Services Running
 | Service | URL | Purpose |
 |---|---|---|
-| Proxmox | https://x.x.x.x:8006 | Hypervisor |
+| Proxmox | https://proxmox.lan | Hypervisor |
 | pfSense | https://pfsense.lan | Firewall |
 | Homepage | http://home.lan | Dashboard |
 | Jellyfin | http://jellyfin.lan | Media Server |
@@ -75,45 +73,44 @@ Kali Linux as a dedicated security lab with remote desktop access.
 | Portainer | http://portainer.lan | Docker Management |
 | Uptime Kuma | http://uptime.lan | Monitoring |
 | Nginx Proxy Manager | http://npm.lan | Reverse Proxy |
-| Pi-hole | http://x.x.x.x:8053/admin | Ad Blocker |
-| Kali Linux RDP | x.x.x.x:3389 | Security Lab |
-| Minecraft Bedrock | x.x.x.x:19132 | Game Server |
+| Pi-hole | http://pihole.lan | Ad Blocker |
+| Kali Linux | kali.lan (RDP) | Security Lab |
+| Minecraft Bedrock | Local network only (UDP) | Game Server |
 
 ## Challenges & Resolutions
 
 ### 1. pfSense Serial Console Issue
-- **Problem:** First pfSense installer ISO (Netgate v1.2) failed to
-  display via VGA console — showed getty errors in a loop
-- **Diagnosis:** Netgate installer ISO uses serial console only,
-  not compatible with standard VGA display in Proxmox
-- **Resolution:** Downloaded official pfSense CE 2.7.2 ISO directly
-  to Proxmox — works with standard noVNC console out of the box
+**Problem:** First pfSense installer ISO (Netgate v1.2) failed to
+display via VGA console — showed getty errors in a loop.
+**Diagnosis:** Netgate installer ISO uses serial console only,
+not compatible with standard VGA display in Proxmox.
+**Resolution:** Downloaded official pfSense CE 2.7.2 ISO directly
+to Proxmox — works with standard noVNC console out of the box.
 
 ### 2. DNS Not Resolving .lan Domains
-- **Problem:** .local domains not resolving on macOS due to Bonjour
-  conflict. .lan domains not resolving due to pfSense Access List
-  blocking external queries
-- **Resolution:** Switched all host overrides from .local to .lan.
-  Added Access List in DNS Resolver allowing x.x.x.x/24.
-  Set router DNS to pfSense so all devices use it automatically
+**Problem:** .local domains not resolving on macOS due to Bonjour
+conflict. .lan domains not resolving due to pfSense Access List
+blocking external queries.
+**Resolution:** Switched all host overrides from .local to .lan.
+Added Access List in DNS Resolver allowing local network.
+Set router DNS to pfSense so all devices use it automatically.
 
 ### 3. xrdp Disconnecting Immediately
-- **Problem:** RDP connection to Kali established then immediately
-  disconnected — window manager exiting in 0 seconds
-- **Diagnosis:** xrdp startwm.sh script not finding XFCE session
-- **Resolution:** Added XFCE4 startup commands to /etc/xrdp/startwm.sh
-  before the default Xsession fallback lines
+**Problem:** RDP connection to Kali established then immediately
+disconnected — window manager exiting in 0 seconds.
+**Diagnosis:** xrdp startwm.sh script not finding XFCE session.
+**Resolution:** Added XFCE4 startup commands to /etc/xrdp/startwm.sh
+before the default Xsession fallback lines.
 
 ### 4. Kali on Wrong Network Subnet
-- **Problem:** Kali received x.x.2.x IP from pfSense LAN DHCP
-  instead of x.x.1.x from router
-- **Resolution:** Set static IP x.x.x.x directly in
-  /etc/network/interfaces
+**Problem:** Kali received IP from pfSense LAN DHCP instead of
+main network range.
+**Resolution:** Set static IP directly in /etc/network/interfaces.
 
 ### 5. Homepage Host Validation Error
-- **Problem:** Homepage blocked access with host validation error
-- **Resolution:** Set HOMEPAGE_ALLOWED_HOSTS environment variable
-  to include both IP and domain name
+**Problem:** Homepage blocked access with host validation error.
+**Resolution:** Set HOMEPAGE_ALLOWED_HOSTS environment variable
+to include both IP and domain name.
 
 ## What I Learned
 - How pfSense firewall rules and DNS resolver work
