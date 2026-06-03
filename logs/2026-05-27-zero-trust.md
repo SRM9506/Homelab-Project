@@ -1,5 +1,4 @@
-# Day 5 — Romm, Minecraft Java, Cloudflare Zero Trust & Security Hardening
-Date: May 27, 2026
+# 2026-05-27 — Romm, Minecraft Java, Cloudflare Zero Trust & Security Hardening
 
 ## Objective
 Deploy Romm retro ROM manager, upgrade Minecraft server to support Java
