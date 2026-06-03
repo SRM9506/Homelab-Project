@@ -1,5 +1,4 @@
-# Day 1 — Initial Infrastructure Setup
-Date: May 23, 2026
+# 2026-05-23 — Initial Infrastructure Setup
 
 ## Objective
 Establish the Proxmox VE hypervisor on the MSI workstation to serve as
