@@ -1,5 +1,4 @@
-# Day 3 — pfSense, DNS, Services & Security Lab
-Date: May 25, 2026
+# 2026-05-25 — pfSense, DNS, Services & Security Lab
 
 ## Objective
 Deploy pfSense firewall, configure local DNS for clean service access,
