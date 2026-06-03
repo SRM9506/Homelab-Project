@@ -1,5 +1,4 @@
-# Day 4 — Remote Access, Portfolio & Professional Setup
-Date: May 26, 2026
+# 2026-05-26 — Remote Access, Portfolio & Professional Setup
 
 ## Objective
 Set up secure remote access to the homelab for use while traveling,
