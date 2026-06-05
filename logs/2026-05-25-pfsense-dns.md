@@ -60,19 +60,22 @@ Kali Linux as a dedicated security lab with remote desktop access.
 - Confirmed BIOS boot order (Proxmox as primary)
 
 ## Services Running
-| Service | URL |
-|---|---|---|
+| Service | Purpose |
+|---|---|
 | Proxmox | Hypervisor |
-| pfSense |  Firewall |
-| Homepage |  Dashboard |
-| Jellyfin |  Media Server |
-| Nextcloud |  Cloud Storage |
-| Portainer |  Docker Management |
+| pfSense | Firewall |
+| Homepage | Dashboard |
+| Jellyfin | Media Server |
+| Nextcloud | Cloud Storage |
+| Portainer | Docker Management |
 | Uptime Kuma | Monitoring |
 | Nginx Proxy Manager | Reverse Proxy |
 | Pi-hole | Ad Blocker |
 | Kali Linux | Security Lab |
-| Minecraft Bedrock | Local network only (UDP) | Game Server |
+| Minecraft Bedrock + Java | Game Server |
+| Windows Server 2022 | Active Directory Domain Controller |
+| Metasploitable2 | Vulnerable Target (Lab) |
+| Wazuh SIEM | Security Monitoring |
 
 ## Challenges & Resolutions
 
