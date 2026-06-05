@@ -12,12 +12,6 @@ online professional presence.
 - Created Cloudflare Zero Trust tunnel connecting homelab to Cloudflare
 - Configured public hostname routes for all services
 - All services now accessible from anywhere with real HTTPS certificates:
-  - https://home.mondol.dev
-  - https://jellyfin.mondol.dev
-  - https://nextcloud.mondol.dev
-  - https://portainer.mondol.dev
-  - https://proxmox.mondol.dev
-  - https://pfsense.mondol.dev
 - No port forwarding required — outbound tunnel bypasses ISP restrictions
 - Verified working on cellular (5G) with WiFi disabled
 
@@ -58,19 +52,22 @@ online professional presence.
 - Covers: A+, Network+, Security+, AWS, eJPT, BTL1, OSCP path
 
 ## Services Running
-| Service | Local | Public |
-|---|---|---|
-| Homepage | http://home.lan | https://home.mondol.dev |
-| Proxmox | https://proxmox.lan | https://proxmox.mondol.dev |
-| pfSense | https://pfsense.lan | https://pfsense.mondol.dev |
-| Jellyfin | http://jellyfin.lan | https://jellyfin.mondol.dev |
-| Nextcloud | http://nextcloud.lan | https://nextcloud.mondol.dev |
-| Portainer | http://portainer.lan | https://portainer.mondol.dev |
-| Uptime Kuma | http://uptime.lan | - |
-| Nginx Proxy Manager | http://npm.lan | - |
-| Pi-hole | http://pihole.lan | - |
-| Kali Linux | kali.lan (RDP) | - |
-| Minecraft Bedrock | Local network only | - |
+| Service | Access |
+|---|---|
+| Homepage | Local network |
+| Proxmox | Local network + Remote via Zero Trust |
+| pfSense | Local network + Remote via Zero Trust |
+| Jellyfin | Local network + Remote via Zero Trust |
+| Nextcloud | Local network + Remote via Zero Trust |
+| Portainer | Local network + Remote via Zero Trust |
+| Uptime Kuma | Local network |
+| Nginx Proxy Manager | Local network |
+| Pi-hole | Local network |
+| Kali Linux | Local network (RDP) |
+| Minecraft Bedrock + Java | Local network |
+| Wazuh SIEM | Local network |
+| Metasploitable2 | Local network (lab only) |
+| Windows Server 2022 | Local network + Remote via Tailscale |
 
 ## Challenges & Resolutions
 
@@ -113,4 +110,4 @@ HOMEPAGE_ALLOWED_HOSTS environment variable including mondol.dev domain.
 - Deploy Metasploitable and DVWA vulnerable targets
 - Implement Wazuh SIEM
 - Set up n8n workflow automation
-- Start CompTIA A+ studying (Professor Messer)
+
