@@ -29,6 +29,9 @@ documented to demonstrate real hands-on experience.
 - pfSense CE 2.7.2 firewall VM deployed and configured
 - Ubuntu Server VM deployed as primary Docker host
 - Kali Linux VM deployed with XFCE desktop and RDP access
+- Windows Server 2022 VM deployed as Active Directory Domain Controller
+- Metasploitable2 VM deployed as vulnerable target for security practice
+- Wazuh SIEM VM deployed for centralized security monitoring
 
 ### Networking & DNS
 - pfSense WAN/LAN interfaces configured
@@ -40,9 +43,12 @@ documented to demonstrate real hands-on experience.
 
 ### Remote Access
 - Cloudflare Tunnel deployed via Docker on Ubuntu Server
-- All services publicly accessible via mondol.dev subdomains with HTTPS
+- All services publicly accessible via custom domain with HTTPS
+- Cloudflare Zero Trust Access protecting all public-facing services
 - No port forwarding required — outbound tunnel bypasses ISP restrictions
 - Verified working on cellular from outside home network
+- Browser-based SSH access to Ubuntu Server and Kali via Cloudflare
+- Tailscale VPN installed on all devices for secure remote RDP access
 
 ### Self-Hosted Services
 - Jellyfin media server
@@ -66,11 +72,22 @@ documented to demonstrate real hands-on experience.
 ### Security Lab
 - Kali Linux 2026.1 VM with full tool suite
 - xrdp configured for full remote desktop access
-- Static IP assigned at x.x.x.x
-- SSH access enabled
+- SSH access enabled on all VMs
+- Windows Server 2022 with Active Directory Domain Controller
+- Active Directory configured with OUs, users, groups, GPOs
+- Intentional AD misconfigurations for attack/defense practice
+- Kerberoastable service account (svc_sql with SPN set)
+- SMB shares with realistic permissions and sensitive files
+- Metasploitable2 vulnerable Linux target deployed
+- Wazuh SIEM with agents on Ubuntu Server, Kali, and Windows Server
+- First red team / blue team exercise completed:
+  - Nmap reconnaissance against Metasploitable
+  - Hydra brute force against Windows Server
+  - Wazuh detected attack in real time (Rule 60204, Level 10)
+  - MITRE ATT&CK T1110 automatically mapped
 
 ### Professional Presence
-- Portfolio website live at https://mondol.dev
+- Portfolio website live at mondol.dev
 - Deployed via Cloudflare Pages with auto-deploy from GitHub
 - LinkedIn updated with IT/cybersecurity career direction
 - GitHub homelab repo with daily documentation logs
@@ -83,50 +100,65 @@ documented to demonstrate real hands-on experience.
 - [x] pfSense — firewall rules and DNS configuration
 - [x] Kali Linux VM — offensive security practice
 - [x] Remote access via Cloudflare Tunnel
-- [ ] pfSense VLANs — network segmentation
-- [ ] WireGuard VPN (blocked by Verizon Fios — using Cloudflare Tunnel instead)
-- [ ] Metasploitable — vulnerable target for penetration testing
+- [x] Cloudflare Zero Trust Access — protecting all public services
+- [x] Metasploitable — vulnerable target for penetration testing
+- [x] Wazuh SIEM — centralized monitoring and threat detection
+- [ ] Kerberoasting — request and crack service account tickets
+- [ ] BloodHound — AD attack path mapping
+- [ ] Pass the hash attacks
 - [ ] DVWA — vulnerable web application practice
-- [ ] Wazuh SIEM — centralized monitoring and threat detection
+- [ ] pfSense VLANs — network segmentation
 
 ### Enterprise Identity
-- [ ] Windows Server 2022 — Active Directory implementation
-- [ ] Group Policy configuration
-- [ ] AD attack and defense practice
+- [x] Windows Server 2022 — Active Directory implementation
+- [x] Group Policy configuration
+- [x] AD attack and defense practice
+- [ ] Join Kali to domain
+- [ ] Deploy Windows workstation VM
 
 ### Cloud & DevOps
 - [x] Docker for service management
 - [ ] Docker Compose migration
 - [ ] CI/CD pipeline for automated deployments
 - [ ] Terraform infrastructure as code practice
+
 ---
 
 ## 📁 Repository Structure
+
 homelab-project/
 ├── README.md
 └── logs/
-├── day-1-setup.md
-├── day-2-services.md
-└── day-3-pfsense.md
+├── 2026-05-23-initial-setup.md
+├── 2026-05-24-media-storage.md
+├── 2026-05-25-pfsense-dns.md
+├── 2026-05-26-remote-access.md
+├── 2026-05-27-zero-trust-romm.md
+├── 2026-05-28-remote-ssh-rdp.md
+├── 2026-06-03-infrastructure-recovery-local-ai.md
+└── 2026-06-04-security-lab-wazuh-attack-defense.md
 
 ---
 
 ## 🌐 Active Services
-| Service | URL | Purpose |
-|---|---|---|
-| Homepage | http://home.lan | Dashboard |
-| Proxmox | https://proxmox.lan | Hypervisor |
-| pfSense | https://pfsense.lan | Firewall |
-| Jellyfin | http://jellyfin.lan | Media Server |
-| Nextcloud | http://nextcloud.lan | Cloud Storage |
-| Portainer | http://portainer.lan | Docker Management |
-| Uptime Kuma | http://uptime.lan | Monitoring |
-| Nginx Proxy Manager | http://npm.lan | Reverse Proxy |
-| Pi-hole | http://pihole.lan | Ad Blocker |
-| Kali Linux | kali.lan (RDP) | Security Lab |
-| Minecraft Bedrock | Local network only (UDP) | Game Server |
-| Minecraft Java | Local network only (TCP) | Game Server (Geyser) |
-| Romm | http://romm.lan | ROM Manager |
+| Service | Purpose |
+|---|---|
+| Proxmox | Hypervisor |
+| pfSense | Firewall |
+| Homepage | Dashboard |
+| Jellyfin | Media Server |
+| Nextcloud | Cloud Storage |
+| Portainer | Docker Management |
+| Uptime Kuma | Monitoring |
+| Nginx Proxy Manager | Reverse Proxy |
+| Pi-hole | Ad Blocker |
+| Kali Linux | Security Lab |
+| Minecraft Bedrock + Java | Game Server (Geyser Bridge) |
+| Romm | Retro ROM Manager |
+| Windows Server 2022 | Active Directory Domain Controller |
+| Metasploitable2 | Vulnerable Target (Lab) |
+| Wazuh SIEM | Security Monitoring |
+
 ---
 
 ## 📋 Project Philosophy
@@ -138,5 +170,6 @@ to prepare for a career in cybersecurity and cloud engineering.
 
 ## 📊 Skills Being Developed
 `Proxmox` `Linux` `Docker` `Networking` `pfSense` `Kali Linux`
-`Active Directory` `Penetration Testing` `SIEM` `DNS` `Reverse Proxy`
-`Cloud Infrastructure` `DevOps` `RDP` `Firewall Configuration`
+`Active Directory` `Penetration Testing` `SIEM` `Wazuh` `DNS`
+`Reverse Proxy` `Cloud Infrastructure` `DevOps` `RDP` `Tailscale`
+`Cloudflare Zero Trust` `Firewall Configuration` `Metasploit`
