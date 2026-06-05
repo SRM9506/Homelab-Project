@@ -91,4 +91,4 @@ pinned setuptools to 69.5.1 to fix pkg_resources breaking change.
 - Deploy Metasploitable and DVWA
 - Implement Wazuh SIEM
 - Fix Pi-hole UDP DNS
-- Start CompTIA A+ studying
+
