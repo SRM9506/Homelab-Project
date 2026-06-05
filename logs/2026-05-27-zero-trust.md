@@ -145,4 +145,4 @@ IPs with .lan domain references or local-only placeholders.
 - Implement Wazuh SIEM
 - Fix Pi-hole UDP DNS integration with pfSense
 - Set up pfSense VLANs
-- Start CompTIA A+ studying (Professor Messer)
+
