@@ -1,4 +1,5 @@
 # 2026-06-03 — Infrastructure Recovery, Backups & Local AI
+
 ## Objective
 Recover from a failed Docker storage migration, establish proper backup
 procedures, and set up local AI on Nobara with GPU acceleration.
