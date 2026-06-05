@@ -46,4 +46,4 @@ Cloudflare browser-based SSH and Tailscale for RDP.
 - Deploy Metasploitable and DVWA
 - Implement Wazuh SIEM
 - Fix Pi-hole UDP DNS integration
-- Start CompTIA A+ studying
+
