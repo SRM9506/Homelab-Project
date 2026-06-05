@@ -26,7 +26,6 @@ Kali Linux as a dedicated security lab with remote desktop access.
 
 ### Pi-hole
 - Deployed Pi-hole Docker container on Ubuntu Server
-- Accessible at http://pihole.lan
 - DNS integration with pfSense partially working
 - UDP port 53 issue to be resolved on Day 4
 
@@ -41,7 +40,6 @@ Kali Linux as a dedicated security lab with remote desktop access.
 
 ### Homepage Dashboard
 - Deployed Homepage dashboard Docker container
-- Accessible at http://home.lan
 - Configured with all homelab services organized by category:
   - Infrastructure: Proxmox, pfSense
   - Media: Jellyfin, Nextcloud
@@ -64,16 +62,16 @@ Kali Linux as a dedicated security lab with remote desktop access.
 ## Services Running
 | Service | URL | Purpose |
 |---|---|---|
-| Proxmox | https://proxmox.lan | Hypervisor |
-| pfSense | https://pfsense.lan | Firewall |
-| Homepage | http://home.lan | Dashboard |
-| Jellyfin | http://jellyfin.lan | Media Server |
-| Nextcloud | http://nextcloud.lan | Cloud Storage |
-| Portainer | http://portainer.lan | Docker Management |
-| Uptime Kuma | http://uptime.lan | Monitoring |
-| Nginx Proxy Manager | http://npm.lan | Reverse Proxy |
-| Pi-hole | http://pihole.lan | Ad Blocker |
-| Kali Linux | kali.lan (RDP) | Security Lab |
+| Proxmox | Hypervisor |
+| pfSense |  Firewall |
+| Homepage |  Dashboard |
+| Jellyfin |  Media Server |
+| Nextcloud |  Cloud Storage |
+| Portainer |  Docker Management |
+| Uptime Kuma | Monitoring |
+| Nginx Proxy Manager | Reverse Proxy |
+| Pi-hole | Ad Blocker |
+| Kali Linux | Security Lab |
 | Minecraft Bedrock | Local network only (UDP) | Game Server |
 
 ## Challenges & Resolutions
