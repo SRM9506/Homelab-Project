@@ -60,7 +60,7 @@ Kali Linux as a dedicated security lab with remote desktop access.
 - Confirmed BIOS boot order (Proxmox as primary)
 
 ## Services Running
-| Service | URL | Purpose |
+| Service | URL |
 |---|---|---|
 | Proxmox | Hypervisor |
 | pfSense |  Firewall |
