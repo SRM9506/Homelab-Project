@@ -68,14 +68,42 @@ broke after recovery.
 - The Docker bridge gateway IP (172.17.0.1) is the correct origin address
   for a bridged cloudflared container to reach host-published ports
 - Always diagnose the layer below before chasing the app-level error
+- A single read-only event is more likely a dirty filesystem from an
+  unclean shutdown than a dying drive — confirm with SMART before assuming
+  hardware failure. Key SMART fields for an SSD: Media/Data Integrity
+  Errors (should be 0), Available Spare (should be ~100%), Percentage Used
+  (wear), and Critical Warning (should be 0x00).
+
+## Disk Health Check — SMART Results (Resolved)
+Checked SMART data on the Proxmox host for the NVMe SSD (where the VM root
+disks live) to rule out hardware failure as the cause:
+- **SMART overall health: PASSED**
+- **Critical Warning: 0x00** — none
+- **Media and Data Integrity Errors: 0** — drive has never corrupted data
+- **Available Spare: 100%** (threshold 10%) — no spare blocks consumed
+- **Percentage Used: 5%** — ~95% of write endurance remaining
+- **Power On Hours: ~12,684** (used drive, modest runtime)
+- **Unsafe Shutdowns: 77** — incremented by the hard resets/reboots during
+  recent troubleshooting sessions
+
+**Conclusion:** The SSD is healthy — not a hardware failure. The read-only
+filesystem was a *logical* error caused by an **unclean shutdown** leaving
+the filesystem dirty; fsck repaired minor errors on reboot. Root cause was
+abrupt power-off during troubleshooting, not a failing drive.
+
+**Prevention:** Always use Proxmox "Shutdown" (clean ACPI shutdown), never
+"Stop" (hard power-off), for VMs. Shut the host down gracefully. This is
+what prevents the dirty-filesystem → read-only cascade from recurring.
 
 ## Watch / Follow-Up
-- The read-only filesystem recovered cleanly from minor errors this time.
-  If it recurs, check disk health (SMART data) on the Proxmox host — could
-  indicate underlying disk issues on the MSI.
+- Drive is healthy, but keep an eye out — if read-only remounts recur
+  *despite* clean shutdowns, re-check SMART (especially Available Spare and
+  Media Errors trending).
 - The n8n tunnel origin now depends on 172.17.0.1:5678. If the cloudflared
   container is ever rebuilt, this address must be preserved.
 
 ## Next Steps
 - Continue with the email triage pipeline (Gmail OAuth → Ollama → Telegram)
+- Consider documenting the *arr media stack (Sonarr, Radarr, Prowlarr,
+  Jellyseerr, qBittorrent, Flaresolverr) — added since last logged
 - Monitor for any recurrence of the read-only filesystem issue
