@@ -1,10 +1,11 @@
-# 🖥️ Home Lab: Infrastructure & Cloud Sandbox
+# 🖥️ Home Lab: Infrastructure, Security & Automation Sandbox
 
 ## Purpose
-This repository documents my self-hosted home lab environment, built to 
-bridge the gap between hobbyist IT and professional-grade systems 
-engineering. Every service, configuration, and troubleshooting step is 
-documented to demonstrate real hands-on experience.
+This repository documents my self-hosted home lab, built to bridge the gap
+between hobbyist IT and professional-grade systems engineering. Every
+service, configuration, and troubleshooting step is documented to
+demonstrate real, hands-on experience across infrastructure, security,
+automation, and local AI.
 
 ---
 
@@ -17,126 +18,130 @@ documented to demonstrate real hands-on experience.
 | RAM | 64GB DDR4 3200MHz |
 | Boot Drive | Samsung 980 500GB NVMe SSD |
 | Data Drive | 1TB HDD |
-| GPU | NVIDIA RTX 3060 6GB |
+| GPU | NVIDIA RTX 3060 (Laptop) |
 | Hypervisor | Proxmox VE 9.2.2 |
+
+A separate Nobara Linux desktop (RTX 3060 12GB) serves as a dedicated AI and
+gaming workstation, kept distinct from the always-on lab.
 
 ---
 
 ## ✅ Completed
 
 ### Virtualization & Core Infrastructure
-- Proxmox VE 9.2.2 installed with dual storage pool (NVMe + HDD)
-- pfSense CE 2.7.2 firewall VM deployed and configured
-- Ubuntu Server VM deployed as primary Docker host
-- Kali Linux VM deployed with XFCE desktop and RDP access
-- Windows Server 2022 VM deployed as Active Directory Domain Controller
-- Metasploitable2 VM deployed as vulnerable target for security practice
-- Wazuh SIEM VM deployed for centralized security monitoring
+- Proxmox VE 9.2.2 with dual storage (NVMe + HDD)
+- pfSense CE firewall VM
+- Ubuntu Server VM as the primary Docker host
+- Kali Linux VM with desktop + RDP access
+- Windows Server 2022 VM as Active Directory Domain Controller
+- Metasploitable2 VM as a vulnerable target for security practice
+- Wazuh SIEM VM for centralized security monitoring
+- Daily vzdump backups + baseline VM snapshots
+- Documented incident recovery: read-only filesystem repair via fsck, and a
+  Docker storage-corruption rebuild (lesson: expand VM disks, never migrate
+  Docker storage; always shut VMs down cleanly)
 
 ### Networking & DNS
-- pfSense WAN/LAN interfaces configured
-- Local DNS resolver with host overrides for all services
-- Nginx Proxy Manager routing all services by domain name
-- All services accessible via clean .lan domains
-- Router DNS set to pfSense for network-wide resolution
-- Static IPs configured on all VMs permanently
+- pfSense WAN/LAN configured
+- Nginx Proxy Manager routing services by domain name
+- Static IPs on all VMs
+- Reliable DNS pinned to public resolvers after retiring a half-configured
+  local DNS server that was causing intermittent resolution failures
 
 ### Remote Access
-- Cloudflare Tunnel deployed via Docker on Ubuntu Server
-- All services publicly accessible via custom domain with HTTPS
-- Cloudflare Zero Trust Access protecting all public-facing services
-- No port forwarding required — outbound tunnel bypasses ISP restrictions
-- Verified working on cellular from outside home network
-- Browser-based SSH access to Ubuntu Server and Kali via Cloudflare
-- Tailscale VPN installed on all devices for secure remote RDP access
+- Cloudflare Tunnel (Docker on Ubuntu Server) — services public over HTTPS
+- No port forwarding required; outbound tunnel bypasses ISP inbound blocking
+- Verified working on cellular from outside the home network
+- Tailscale on all devices for secure remote SSH, RDP, and app-client access
+- VS Code Remote-SSH from MacBook into the lab, with key-based auth
 
 ### Self-Hosted Services
-- Jellyfin media server
-- Nextcloud personal cloud storage
-- Nginx Proxy Manager
-- Portainer Docker management
-- Uptime Kuma service monitoring
-- Homepage dashboard
-- Pi-hole ad blocker
-- Minecraft Bedrock + Java server (Geyser bridge)
-- Romm retro ROM manager and browser emulator
-- Watchtower — automated daily container updates
+- Jellyfin — media server (with Live TV / EPG, multi-stream)
+- Nextcloud — personal cloud storage (also backs Obsidian note sync)
+- Nginx Proxy Manager — reverse proxy
+- Portainer — Docker management
+- Uptime Kuma — service monitoring
+- Homepage — dashboard
+- Minecraft Bedrock + Java (Geyser bridge)
+- Romm — retro ROM manager + browser emulator
+- Watchtower — automated container updates
 - Cloudflared — Cloudflare Tunnel connector
 
-### Storage
-- 300GB virtual disk mounted at /mnt/media on 1TB HDD
-- Jellyfin media library (movies, music, TV) stored on HDD
-- Nextcloud data stored on HDD
-- Proper ownership and permissions configured
+### Media Automation Stack
+- Prowlarr — indexer manager (syncs indexers to Radarr/Sonarr)
+- Radarr — movie management
+- Sonarr — TV management
+- Jellyseerr — request frontend (single sign-on with Jellyfin)
+- qBittorrent — download client, routed through VPN
+- Flaresolverr — indexer challenge solver
+- Full pipeline: request → manage → download → Jellyfin library
+
+### Automation & Local AI
+- n8n — self-hosted workflow automation, public via Cloudflare Tunnel
+  - Daily Telegram log reminder workflow (Schedule → Telegram bot)
+  - Daily weather report workflow (Schedule → OpenWeatherMap → Telegram)
+  - Email triage pipeline in progress (Gmail → local LLM classify → Telegram)
+- Ollama (CPU-only) on Ubuntu Server running a small model (qwen3:1.7b) as
+  an always-on email classifier, called via API with reasoning disabled
+- Telegram bot for push notifications to phone
+- Obsidian note sync across desktop + iPhone via Nextcloud WebDAV
+  (Remotely Save), routed over Tailscale to bypass Cloudflare's bot
+  challenge on non-browser clients
+
+> Heavier interactive AI (Open WebUI, ComfyUI, Stable Diffusion Forge, larger
+> Ollama models) runs on the separate Nobara workstation, not the lab.
 
 ### Security Lab
-- Kali Linux 2026.1 VM with full tool suite
-- xrdp configured for full remote desktop access
-- SSH access enabled on all VMs
-- Windows Server 2022 with Active Directory Domain Controller
-- Active Directory configured with OUs, users, groups, GPOs
+- Kali Linux with full tool suite, xrdp remote desktop, SSH
+- Windows Server 2022 Active Directory: OUs, users, groups, GPOs
 - Intentional AD misconfigurations for attack/defense practice
-- Kerberoastable service account (svc_sql with SPN set)
-- SMB shares with realistic permissions and sensitive files
-- Metasploitable2 vulnerable Linux target deployed
+  (Kerberoastable svc_sql with SPN, reversible encryption, SMB signing
+  disabled, over-permissioned shares with decoy sensitive files)
+- Metasploitable2 vulnerable Linux target
 - Wazuh SIEM with agents on Ubuntu Server, Kali, and Windows Server
-- First red team / blue team exercise completed:
-  - Nmap reconnaissance against Metasploitable
+- First red team / blue team exercise:
+  - Nmap recon against Metasploitable
   - Hydra brute force against Windows Server
-  - Wazuh detected attack in real time (Rule 60204, Level 10)
-  - MITRE ATT&CK T1110 automatically mapped
+  - Wazuh detected the attack in real time (Rule 60204, Level 10)
+  - MITRE ATT&CK T1110 (Brute Force) automatically mapped
 
 ### Professional Presence
-- Portfolio website live at mondol.dev
-- Deployed via Cloudflare Pages with auto-deploy from GitHub
-- LinkedIn updated with IT/cybersecurity career direction
-- GitHub homelab repo with daily documentation logs
+- Personal site live at mondol.dev — four-page hub (Home, Portfolio, Study
+  Guides, Homelab), deployed via Cloudflare Pages with auto-deploy from
+  GitHub
+- LinkedIn aligned with IT/cybersecurity career direction
+- This homelab repo with dated documentation logs
 
 ---
 
 ## 🗺️ Roadmap
 
+### Automation & Cloud/DevOps
+- [x] Docker for service management
+- [x] n8n automation platform + first workflows
+- [x] Local LLM (Ollama) for workflow classification
+- [ ] Finish n8n email triage pipeline (Gmail OAuth → classify → notify)
+- [ ] Docker Compose migration of the full stack
+- [ ] CI/CD pipeline with a self-hosted GitHub Actions runner
+- [ ] Terraform — infrastructure as code
+- [ ] Agent sandbox (Dify / Flowise pointed at local Ollama)
+
 ### Networking & Security
-- [x] pfSense — firewall rules and DNS configuration
-- [x] Kali Linux VM — offensive security practice
+- [x] pfSense — firewall + DNS
+- [x] Kali Linux — offensive security practice
 - [x] Remote access via Cloudflare Tunnel
-- [x] Cloudflare Zero Trust Access — protecting all public services
-- [x] Metasploitable — vulnerable target for penetration testing
-- [x] Wazuh SIEM — centralized monitoring and threat detection
-- [ ] Kerberoasting — request and crack service account tickets
-- [ ] BloodHound — AD attack path mapping
-- [ ] Pass the hash attacks
-- [ ] DVWA — vulnerable web application practice
+- [x] Metasploitable — vulnerable target
+- [x] Wazuh SIEM — monitoring + detection
+- [ ] AD attack practice — Kerberoasting, BloodHound, pass-the-hash
+- [ ] DVWA — vulnerable web app practice
 - [ ] pfSense VLANs — network segmentation
 
 ### Enterprise Identity
-- [x] Windows Server 2022 — Active Directory implementation
-- [x] Group Policy configuration
-- [x] AD attack and defense practice
-- [ ] Join Kali to domain
-- [ ] Deploy Windows workstation VM
-
-### Cloud & DevOps
-- [x] Docker for service management
-- [ ] Docker Compose migration
-- [ ] CI/CD pipeline for automated deployments
-- [ ] Terraform infrastructure as code practice
-
----
-
-## 📁 Repository Structure
-
-homelab-project/
-├── README.md
-└── logs/
-├── 2026-05-23-initial-setup.md
-├── 2026-05-24-media-storage.md
-├── 2026-05-25-pfsense-dns.md
-├── 2026-05-26-remote-access.md
-├── 2026-05-27-zero-trust-romm.md
-├── 2026-05-28-remote-ssh-rdp.md
-├── 2026-06-03-infrastructure-recovery-local-ai.md
-└── 2026-06-04-security-lab-wazuh-attack-defense.md
+- [x] Windows Server 2022 — Active Directory
+- [x] Group Policy + intentional misconfigurations
+- [ ] Join Kali to the domain
+- [ ] Deploy a Windows 10/11 workstation VM
+- [ ] Deploy a Linux CTF target VM
 
 ---
 
@@ -151,7 +156,11 @@ homelab-project/
 | Portainer | Docker Management |
 | Uptime Kuma | Monitoring |
 | Nginx Proxy Manager | Reverse Proxy |
-| Pi-hole | Ad Blocker |
+| n8n | Workflow Automation |
+| Ollama | Local LLM (classification) |
+| Prowlarr / Radarr / Sonarr | Media Automation |
+| Jellyseerr | Media Requests |
+| qBittorrent | Download Client |
 | Kali Linux | Security Lab |
 | Minecraft Bedrock + Java | Game Server (Geyser Bridge) |
 | Romm | Retro ROM Manager |
@@ -162,9 +171,11 @@ homelab-project/
 ---
 
 ## 📋 Project Philosophy
-I treat this lab as a production environment. I document my progress, 
-troubleshoot systematically, and maintain a security-first architecture 
-to prepare for a career in cybersecurity and cloud engineering.
+I treat this lab as a production environment: I document my progress,
+troubleshoot systematically, recover from real incidents, and keep a
+security-first mindset to prepare for a career in cybersecurity and cloud
+engineering. The `logs/` folder contains dated, session-by-session
+write-ups of the work — including the failures and how I fixed them.
 
 ---
 
@@ -172,4 +183,5 @@ to prepare for a career in cybersecurity and cloud engineering.
 `Proxmox` `Linux` `Docker` `Networking` `pfSense` `Kali Linux`
 `Active Directory` `Penetration Testing` `SIEM` `Wazuh` `DNS`
 `Reverse Proxy` `Cloud Infrastructure` `DevOps` `RDP` `Tailscale`
-`Cloudflare Zero Trust` `Firewall Configuration` `Metasploit`
+`Cloudflare Tunnel` `Firewall Configuration` `Metasploit` `n8n`
+`Workflow Automation` `Local LLMs / Ollama` `Incident Recovery`
