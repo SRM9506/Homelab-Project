@@ -1,0 +1,65 @@
+# 2026-06-16 — Immich Self-Hosted Photo Backup (Docker Compose)
+
+## Objective
+Deploy Immich (self-hosted Google Photos alternative) on the always-on
+homelab for automatic phone photo/video backup with AI face/object
+recognition, exposed for backup from anywhere.
+
+## Why Ubuntu Server (not Nobara)
+- Immich needs to be **always on** for phone auto-backup to work whenever a
+  photo is taken — so it belongs on the always-on homelab, not the Nobara
+  workstation (which gets turned off).
+
+## What Was Accomplished
+
+### Deployment (Docker Compose)
+- Created ~/immich and pulled Immich's official docker-compose.yml and
+  example.env (-> .env).
+- Edited .env:
+  - UPLOAD_LOCATION set to a folder on the DataHDD (the roomy 1TB spinning
+    disk with ~200GB free), NOT the NVMe system disk — bulk photo storage
+    belongs on the big disk, and keeps the system disk safe from filling.
+  - DB_PASSWORD changed off the default.
+- Brought the stack up with `docker compose up -d`. Four containers:
+  immich-server, immich-machine-learning (the large AI image), postgres,
+  redis. Confirmed all healthy (server briefly showed unhealthy during
+  first-run DB migrations, then went healthy — normal).
+- Created the admin account in the web UI (first account = admin).
+
+### Remote Access (Cloudflare Tunnel)
+- Added a public hostname on the existing tunnel pointing to the Docker
+  bridge gateway address — same pattern as n8n,
+  because cloudflared is a bridged container and can't reach host-published
+  ports via localhost.
+- Confirmed Immich loads at its public hostname.
+
+### Phone App
+- Installed the Immich app on iPhone, connected to the server via the public
+  hostname, logged in, and set up backup.
+- Note: back up the main "Recents"/"All Photos" album (the full library) so
+  saved images — not just camera photos — are captured. iOS smart albums
+  like "Recently Saved" are just filtered views of the same library.
+
+## Storage Notes
+- Library lives on the DataHDD (~200GB free now). Can grow the disk later
+  from ~557GB of free physical space (expand-in-place: resize in Proxmox
+  -> growpart + resize2fs), never migrate.
+- HDD speed is fine for a photo gallery — no need for NVMe here.
+
+## What I Learned
+- Immich is a multi-container Docker Compose app (server + ML + postgres +
+  redis); the machine-learning image is the largest and slowest to pull
+- The server container reports "unhealthy" briefly on first start while it
+  runs DB migrations — normal, resolves on its own
+- Bulk-data services (photos, media) belong on the large HDD, not the system
+  NVMe, to avoid filling the root filesystem
+- The Docker bridge gateway is the reliable tunnel origin for
+  any bridged-container setup — reused from the n8n fix
+- This was also good hands-on Docker Compose practice ahead of the planned
+  full-stack Compose migration
+
+## Next Steps
+- Let the initial full library backup run on home WiFi (big first sync)
+- Verify a known saved (non-camera) photo appears in Immich after backup
+- Optionally create a separate Immich account for household member
+- Monitor DataHDD usage as the library grows; expand the disk when needed
