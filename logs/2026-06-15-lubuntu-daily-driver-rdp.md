@@ -25,13 +25,13 @@ serve better.
 
 ## Challenges & Resolutions
 
-### 1. VM Landed on Wrong Subnet (192.168.2.x)
-**Problem:** The new VM pulled a 192.168.2.x DHCP lease and the MacBook
-(on 192.168.1.x) couldn't reach it — different subnets, no routing.
+### 1. VM Landed on Wrong Subnet (x.x.2.x)
+**Problem:** The new VM pulled a x.x.2.x DHCP lease and the MacBook
+(on x.x.1.x) couldn't reach it — different subnets, no routing.
 **Diagnosis:** A second DHCP server (pfSense, leftover from an abandoned
 WireGuard setup) was answering DHCP on the same bridge, competing with the
 main router. The VM happened to get pfSense's lease.
-**Resolution (short-term):** Set a static IP on 192.168.1.x via the GUI
+**Resolution (short-term):** Set a static IP on x.x.1.x via the GUI
 network manager. The connection was named `netplan-ens18` (not `ens18`),
 which is why the first nmcli up/down attempt errored. (Root cause later
 fixed properly — see the pfSense DHCP log.)
