@@ -40,7 +40,7 @@ Ubuntu Server media disk that was running low.
   auth/session state. Fixed by resetting the password via occ:
   ```
   docker exec -u www-data -e OC_PASS="<newpass>" nextcloud \
-    php occ user:resetpassword <admin-user> --password-from-env
+     --password-from-env
   ```
   (The interactive prompt wasn't capturing input, so the env-variable method
   was used instead.)
