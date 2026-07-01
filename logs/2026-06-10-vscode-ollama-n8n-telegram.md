@@ -14,8 +14,6 @@ automation platform, and build the first notification workflow via Telegram.
   to Ubuntu Server's authorized_keys manually
 - Enabled PubkeyAuthentication in sshd_config (was commented out by default)
 - Set correct permissions on ~/.ssh and authorized_keys (700 and 600)
-- Configured ssh-agent for seamless key auth
-- VS Code now connects to Ubuntu Server silently with no password prompt
 - Installed extensions: Remote SSH, Docker, YAML, GitLens, Markdown All in One
 - GitHub Copilot available via free trial — tested Chat and Agent modes
 
